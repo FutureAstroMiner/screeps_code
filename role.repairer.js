@@ -18,6 +18,18 @@ var roleRepairer = {
                     creep.moveTo(targets);
                     creep.say("repairing");
                 }
+            } else {
+                // TODO find closest construction site.
+                var construction = creep.room.find(FIND_CONSTRUCTION_SITES);
+                if (construction.length > 0) {
+                    if (creep.build(construction[0]) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(construction[0], { visualizePathStyle: { stroke: '#ffffff' } });
+                    } else {
+                        if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
+                        }
+                    }
+                }
             }
         } else {
             var containers = creep.room.find(FIND_STRUCTURES, {
@@ -36,24 +48,12 @@ var roleRepairer = {
                     creep.say("container");
                 }
             } else {
-                // TODO find closest construction site.
-                var construction = creep.room.find(FIND_CONSTRUCTION_SITES);
-                if (construction.length > 0) {
-                    if (creep.build(construction[0]) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(construction[0], { visualizePathStyle: { stroke: '#ffffff' } });
-                    } else {
-                        if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                            creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
-                        } else {
-                            var sources = creep.pos.findClosestByPath(FIND_SOURCES);
-                            if (creep.harvest(sources) == ERR_NOT_IN_RANGE) {
-                                creep.moveTo(sources, {
-                                    visualizePathStyle: { stroke: "#ffaa00" }
-                                });
-                                creep.say("source");
-                            }
-                        }
-                    }
+                var sources = creep.pos.findClosestByPath(FIND_SOURCES);
+                if (creep.harvest(sources) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(sources, {
+                        visualizePathStyle: { stroke: "#ffaa00" }
+                    });
+                    creep.say("source");
                 }
             }
         }
