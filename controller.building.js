@@ -31,7 +31,7 @@ var buildingController = {
                         if (extensions_to_spawn > 0) {
                             var result = room.createConstructionSite(locx + x_shaped_construction[i],
                                 locy + x_shaped_construction[i + 1],
-                                STRUCTURE_EXTENSION) == 0;
+                                STRUCTURE_EXTENSION);
                             if (result == 0) {
                                 extensions_to_spawn--;
                             } else if (i > 3) {
