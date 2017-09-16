@@ -36,9 +36,6 @@ var my_spawner_loc = Game.spawns.Spawn1.pos;
 
 var possible_extensions = [0, 0, 5, 10, 20, 30, 40, 50, 60];
 
-if (!Memory.rcl) {
-    Memory.rcl = 0;
-}
 
 
 module.exports.loop = function() {
@@ -52,7 +49,8 @@ module.exports.loop = function() {
     //setting room control level
     for (var roomName in Game.rooms) { //Loop through all rooms your creeps/structures are in
         var room = Game.rooms[roomName];
-        if (room.controller.level != Memory.rcl) {
+
+        if (room.controller.level != room.memory.rcl) {
 
             room.memory.build_extension = true;
             buildingController.run(room);

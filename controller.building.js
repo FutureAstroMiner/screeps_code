@@ -14,17 +14,16 @@ var buildingController = {
         }
         var my_spawner_loc = room.find(FIND_MY_SPAWNS);
         // console.log("Initilised2");
-        if (room.controller.level != Memory.rcl) {
-            Memory.rcl = room.controller.level;
-            console.log("Controller level changed to ", Memory.rcl);
+        if (room.controller.level != room.memory.rcl) {
+            room.memory.rcl = room.controller.level;
+            console.log("Controller level changed to ", room.memory.rcl);
             var total_extensions = room.find(FIND_STRUCTURES, {
                 filter: structure => { return (structure.structureType == STRUCTURE_EXTENSION); }
             });
-            console.log(total_extensions);
-            if (Memory.rcl > 1 && total_extensions.length < possible_extensions[Memory.rcl]) {
+            if (room.memory.rcl > 1 && total_extensions.length < possible_extensions[room.memory.rcl]) {
                 //spawn extensions
                 // console.log("Started spawning");
-                var extensions_to_spawn = possible_extensions[Memory.rcl] - total_extensions.length;
+                var extensions_to_spawn = possible_extensions[room.memory.rcl] - total_extensions.length;
                 for (var j = 0; extensions_to_spawn > 0; j++) {
                     var locx = my_spawner_loc[0].pos.x + possible_starts[extension_layer];
                     var locy = my_spawner_loc[0].pos.y + possible_starts[extension_layer + 1];
