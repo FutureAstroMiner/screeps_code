@@ -34,7 +34,11 @@ var buildingController = require("controller.building");
 var my_spawner_name = "Spawn1";
 var my_spawner_loc = Game.spawns.Spawn1.pos;
 
+var possible_extensions = [0, 0, 5, 10, 20, 30, 40, 50, 60];
 
+if (!Memory.rcl) {
+    Memory.rcl = 0;
+}
 
 
 module.exports.loop = function() {
@@ -49,14 +53,14 @@ module.exports.loop = function() {
     for (var roomName in Game.rooms) { //Loop through all rooms your creeps/structures are in
         var room = Game.rooms[roomName];
         if (room.controller.level != Memory.rcl) {
+
+            room.memory.build_extension = true;
             buildingController.run(room);
+
         }
     }
 
-    var upgrader = _.filter(
-        Game.creeps,
-        creep => creep.memory.role == "upgrader"
-    );
+    var upgrader = _.filter(Game.creeps, creep => creep.memory.role == "upgrader");
     var worker = _.filter(Game.creeps, creep => creep.memory.role == "worker");
     // console.log("Workers/Upgraders: " + worker.length + "/" + upgrader.length);
     var miner = _.filter(Game.creeps, creep => creep.memory.role == "miner");
