@@ -1,0 +1,5 @@
+Using Sublime text 3 and Screeps autocomplete
+
+Usefull scripts
+Game.rooms.E59N14.createConstructionSite(11, 33, STRUCTURE_CONTAINER);
+STRUCTURE_EXTENSION: "extension",
