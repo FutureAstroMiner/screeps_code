@@ -29,6 +29,24 @@ var roleRepairer = {
                             creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
                         }
                     }
+                } else {
+                    var empties = creep.room.find(FIND_STRUCTURES, {
+                        filter: structure => {
+                            return (
+                                (structure.structureType == STRUCTURE_EXTENSION ||
+                                    structure.structureType == STRUCTURE_CONTAINER ||
+                                    structure.structureType == STRUCTURE_SPAWN) &&
+                                structure.energy < structure.energyCapacity
+                            );
+                        }
+                    });
+                    if (empties.length > 0) {
+                        if (creep.transfer(empties[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(empties[0], {
+                                visualizePathStyle: { stroke: "#ffffff" }
+                            });
+                        }
+                    }
                 }
             }
         } else {
