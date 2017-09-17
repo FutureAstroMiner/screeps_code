@@ -64,6 +64,12 @@ module.exports.loop = function() {
     var miner = _.filter(Game.creeps, creep => creep.memory.role == "miner");
     var repairer = _.filter(Game.creeps, creep => creep.memory.role == "repairer");
 
+    var containers = Game.spawns[my_spawner_name].room.find(FIND_STRUCTURES, {
+        filter: structure => {
+            return (structure.structureType == STRUCTURE_CONTAINER);
+        }
+    });
+
     if (worker.length < 2) {
         var newName = Game.spawns[my_spawner_name].createCreep(
             [WORK, CARRY, MOVE],
@@ -84,12 +90,16 @@ module.exports.loop = function() {
                     undefined, { role: "worker" }
                 );
                 console.log("Spawning new worker: " + newName);
-            } else if (miner.length < 1) {
-                var newName = Game.spawns[my_spawner_name].createCreep(
-                    [WORK, WORK, WORK, WORK, WORK, MOVE],
-                    undefined, { role: "miner" }
-                );
-                console.log("Spawning new miner: " + newName);
+            } else if (miner.length < containers.length) {
+                for (let c of containers) {
+                    if (!_.some(miner, m => m.memory.role == 'miner' && m.memory.container.id == c.id)) {
+                        var newName = Game.spawns[my_spawner_name].createCreep(
+                            [WORK, WORK, WORK, WORK, WORK, MOVE],
+                            undefined, { role: "miner", container: c }
+                        );
+                        console.log("Spawning new miner: " + newName);
+                    }
+                }
             }
             if (repairer.length < 1) {
                 var newName = Game.spawns[my_spawner_name].createCreep(
@@ -136,6 +146,21 @@ module.exports.loop = function() {
             roleUpgrader.run(creep);
         }
         if (creep.memory.role == "miner") {
+            // if (!creep.memory.container) {
+            //     var targets = containers.slice();
+            //     if (miner.length == 1) {
+            //         creep.memory.container = targets[0];
+            //     } else {
+            //         for (var m = 0; m < miner.length; m++) {
+            //             if (targets.indexOf(miner[m].memory.container) != -1) {
+            //                 targets.slice(indexOf(miner[m]), indexOf(miner[m]));
+            //             }
+            //         }
+            //         if (target.length > 0) {
+            //             creep.memory.container = target[0];
+            //         }
+            //     }
+            // }
             roleMiner.run(creep);
         }
         if (creep.memory.role == "repairer") {
