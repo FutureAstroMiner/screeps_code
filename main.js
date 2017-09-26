@@ -3,6 +3,7 @@ var roleUpgrader = require("role.upgrader");
 var roleWorker = require("role.worker");
 var roleRepairer = require("role.repairer");
 var buildingController = require("controller.building");
+var roleTower = require("role.tower");
 
 //Should this go in the main Loop???
 
@@ -135,6 +136,14 @@ module.exports.loop = function() {
         if (closestHostile) {
             tower.attack(closestHostile);
         }
+    }
+
+    var towers = Game.rooms[roomName].find(
+        FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
+
+    for (var id in towers) {
+        var tower = towers[id];
+        roleTower.run(tower);
     }
 
     for (var name in Game.creeps) {
