@@ -71,6 +71,14 @@ module.exports.loop = function() {
         }
     });
 
+    if (!Game.spawns[my_spawner_name].spawning) {
+        if (energyCapacity < basic_cost) {
+            // if i use this I will get 1 big spawn and then lots of small.
+
+        }
+
+    }
+
     if (worker.length < 2) {
         var newName = Game.spawns[my_spawner_name].createCreep(
             [WORK, CARRY, MOVE],
