@@ -1,4 +1,12 @@
-Using Sublime text 3 and Screeps autocomplete
+Using Sublime text 3 and Screeps Autocomplete
+
+Autocomplete repo copied to /media/adam/mydata/Adam/Games/Screeps/Utils/ScreepsAutocomplete using BitKracken
+symlink setup using "ln -sf /media/adam/mydata/Adam/Games/Screeps/Utils/ScreepsAutocomplete /media/adam/mydata/Adam/Projects/Screeps/src"
+
+Can copy with cp dir1/* dir2
+
+Sim folder location /home/adam/.config/Screeps/scripts/screeps.com/tutorial-1
+Live @ /home/adam/.config/Screeps/scripts/screeps.com/default
 
 Usefull scripts
 Game.rooms.E59N14.createConstructionSite(11, 33, STRUCTURE_CONTAINER);
