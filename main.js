@@ -44,9 +44,11 @@ module.exports.loop = function() {
     for (var name in Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name];
-            console.log("Clearing non-existing creep memory:", name);
+            //console.log("Clearing non-existing creep memory:", name);
         }
     }
+    // Maintain a list of construction sites???  
+
     //setting room control level
     for (var roomName in Game.rooms) { //Loop through all rooms your creeps/structures are in
         var room = Game.rooms[roomName];
@@ -71,13 +73,13 @@ module.exports.loop = function() {
         }
     });
 
-    if (!Game.spawns[my_spawner_name].spawning) {
-        if (energyCapacity < basic_cost) {
-            // if i use this I will get 1 big spawn and then lots of small.
+    // if (!Game.spawns[my_spawner_name].spawning) {
+    //     if (energyCapacity < basic_cost) {
+    //         // if i use this I will get 1 big spawn and then lots of small.
 
-        }
+    //     }
 
-    }
+    // }
 
     if (worker.length < 2) {
         var newName = Game.spawns[my_spawner_name].createCreep(
@@ -119,6 +121,7 @@ module.exports.loop = function() {
             }
         }
     }
+    //  I think this code is not needed???
     //   var miner = _.filter(Game.creeps, creep => creep.memory.role == "miner");
     //   if (miner < 2) {
     //     var newName = Game.spawns[my_spawner_name].createCreep(
@@ -184,4 +187,4 @@ module.exports.loop = function() {
             roleRepairer.run(creep);
         }
     }
-};
+}
