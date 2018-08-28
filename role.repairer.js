@@ -9,18 +9,15 @@ var roleRepairer = {
         }
 
         if (creep.memory.repairing) {
-            if (!creep.memory.target) {
+            if (creep.memory.target == null) {
                 var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: object => object.hits < object.hitsMax / 4
                 });
-                creep.memory.target = target;
+                creep.memory.target = target.id;
             } else {
-                target = creep.memory.target;
+                target = Game.getObjectById(creep.memory.target);
                 if (target.hits == target.hitsMax) {
-                    target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                        filter: object => object.hits < object.hitsMax / 4
-                    });
-                    creep.memory.target = target;
+                    delete creep.memory.target;
                 }
             }
 
