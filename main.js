@@ -130,23 +130,7 @@ module.exports.loop = function() {
     //     );
     //     console.log("Spawning new miner: " + newName);
     //   }
-
-    // var tower = Game.getObjectById("8d99f1cfa54380282eb718b6");
-    // if (tower) {
-    //     var closestDamagedStructure = tower.pos.findClosestByRange(
-    //         FIND_STRUCTURES, {
-    //             filter: structure => structure.hits < structure.hitsMax
-    //         }
-    //     );
-    //     if (closestDamagedStructure) {
-    //         tower.repair(closestDamagedStructure);
-    //     }
-
-    //     var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-    //     if (closestHostile) {
-    //         tower.attack(closestHostile);
-    //     }
-    // }
+*/
 
     var towers = Game.rooms[roomName].find(
         FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
@@ -165,21 +149,6 @@ module.exports.loop = function() {
             roleUpgrader.run(creep);
         }
         if (creep.memory.role == "miner") {
-            // if (!creep.memory.container) {
-            //     var targets = containers.slice();
-            //     if (miner.length == 1) {
-            //         creep.memory.container = targets[0];
-            //     } else {
-            //         for (var m = 0; m < miner.length; m++) {
-            //             if (targets.indexOf(miner[m].memory.container) != -1) {
-            //                 targets.slice(indexOf(miner[m]), indexOf(miner[m]));
-            //             }
-            //         }
-            //         if (target.length > 0) {
-            //             creep.memory.container = target[0];
-            //         }
-            //     }
-            // }
             roleMiner.run(creep);
         }
         if (creep.memory.role == "repairer") {
