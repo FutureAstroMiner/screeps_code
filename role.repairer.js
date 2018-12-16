@@ -9,23 +9,18 @@ var roleRepairer = {
         }
 
         if (creep.memory.repairing) {
-            var target;
-            if (creep.memory.target == null) {
-                target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+            var repair = Game.getObjectById(creep.memory.repair);;
+            if (repair == null) {
+                repair = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: object => object.hits < object.hitsMax / 4
                 });
-                creep.memory.target = target.id;
-            } else {
-                target = Game.getObjectById(creep.memory.target);
-                // if (target.hits == target.hitsMax) {
-                //     delete creep.memory.target;
-                // }
+                if (repair != null) {
+                    creep.memory.repair = repair.id;
+                }
             }
-
-
-            if (target) {
-                if (creep.repair(target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+            if (repair) {
+                if (creep.repair(repair) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(repair);
                     creep.say("repairing");
                 }
             } else {
