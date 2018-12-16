@@ -31,7 +31,6 @@ var roleTower = require("role.tower");
 // }
 
 
-
 var my_spawner_name = "Spawn1";
 var my_spawner_loc = Game.spawns.Spawn1.pos;
 

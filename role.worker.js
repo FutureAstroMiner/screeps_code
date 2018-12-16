@@ -17,16 +17,16 @@ var roleWorker = {
                     filter: structure => {
                         return (
                             (structure.structureType == STRUCTURE_EXTENSION ||
-                                // structure.structureType == STRUCTURE_CONTAINER ||
                                 structure.structureType == STRUCTURE_SPAWN ||
                                 structure.structureType == STRUCTURE_TOWER) &&
-                            structure.energy + creep.carry.energy > structure.energyCapacity
+                            structure.energy + creep.carry.energy < structure.energyCapacity
                         );
                     }
                 });
                 if (target != null) {
                     creep.memory.target = target.id;
                 } else {
+                    creep.say("Construction?")
                     var construction = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
                     if (construction) {
                         if (creep.build(construction) == ERR_NOT_IN_RANGE) {
@@ -61,10 +61,10 @@ var roleWorker = {
 
                 } else if (result == ERR_FULL) {
                     delete creep.memory.target;
-                    //delete creep.memory._move;
                 }
             }
         } else {
+            // TODO change source lookup so that it uses memory
             var container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: structure => {
                     return (
