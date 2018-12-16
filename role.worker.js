@@ -19,14 +19,14 @@ var roleWorker = {
                             (structure.structureType == STRUCTURE_EXTENSION ||
                                 structure.structureType == STRUCTURE_SPAWN ||
                                 structure.structureType == STRUCTURE_TOWER) &&
-                            structure.energy + creep.carry.energy < structure.energyCapacity
+                            structure.energy  < structure.energyCapacity
                         );
                     }
                 });
                 if (target != null) {
                     creep.memory.target = target.id;
                 } else {
-                    creep.say("Construction?")
+                    //creep.say("Construction?")
                     var construction = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
                     if (construction) {
                         if (creep.build(construction) == ERR_NOT_IN_RANGE) {
