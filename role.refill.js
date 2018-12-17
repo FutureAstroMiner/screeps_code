@@ -12,9 +12,8 @@ var roleRefill = {
         }
 
         if (creep.memory.doing) {
-            // move towards your target
             var target = Game.getObjectById(creep.memory.target);
-            if (target == null || target.energy + creep.carry.energy > target.energyCapacity) {
+            if (target == null || target.energy == target.energyCapacity) {
                 target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: structure => {
                         return (
