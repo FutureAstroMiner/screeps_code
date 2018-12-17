@@ -27,7 +27,7 @@ var roleSpare = {
             } else {
                 //creep.say("Construction?")
                 var construction = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
-                if (construction) {
+                if (construction != null) {
                     creep.memory.role = "builder";
                     creep.memory.target = construction.id;
                 } else {
@@ -44,11 +44,14 @@ var roleSpare = {
         } else {
             // TODO I am repeating code here!!!
             var target = Game.getObjectById(creep.memory.target);
+            //creep.say(target.structureType == STRUCTURE_CONTAINER);
             if (target != null) {
                 if (target.structureType == STRUCTURE_CONTAINER) {
-                    if (target[RESOURCE_ENERGY] > creep.carryCapacity) {
-                        if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                            creep.moveTo(container, {
+                    if (target.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
+                        //creep.say("container");
+                        if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                            //creep.say("range");
+                            creep.moveTo(target, {
                                 visualizePathStyle: {
                                     stroke: "#ffaa00"
                                 },
@@ -69,6 +72,7 @@ var roleSpare = {
                     }
                 }
             } else {
+                //creep.say("hi");
                 var container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: structure => {
                         return (

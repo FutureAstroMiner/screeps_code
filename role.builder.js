@@ -3,41 +3,45 @@ var roleBuilder = {
     /** @param {Creep} creep **/
     run: function(creep) {
 
-	    if(creep.memory.building && creep.carry.energy == 0) {
-            creep.memory.building = false;
+        if (creep.memory.doing && creep.carry.energy == 0) {
+            creep.memory.doing = false;
             creep.say('🔄 harvest');
-	    }
-	    if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
-	        creep.memory.building = true;
-	        creep.say('🚧 build');
-	    }
-	    
-	    if(!creep.memory.building && !creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-	        creep.memory.upgrading = true;
-	        creep.say('⚡ upgrade');
-	    }
+        }
+        if (!creep.memory.doing && creep.carry.energy == creep.carryCapacity) {
+            creep.memory.doing = true;
+            creep.say('🚧 build');
+        }
+        /*
+                if (!creep.memory.building && !creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
+                    creep.memory.upgrading = true;
+                    creep.say('⚡ upgrade');
+                }
+        */
 
-
-	    if(creep.memory.building) {
-	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
-                } else {
-                    if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
-            }
+        if (creep.memory.doing) {
+            //creep.say("target.progress");
+            var target = Game.getObjectById(creep.memory.target);
+            if (target == null) {
+                creep.say(target.progress);
+                target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+                if (target == null) {
+                    delete creep.memory.target;
+                }
+            } else {
+                if (creep.build(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {
+                        visualizePathStyle: {
+                            stroke: '#ffffff'
+                        }
+                    });
                 }
             }
-	    }
-	    else {
-	        var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
-	    } 
-        
-	}
+
+        } else {
+            delete creep.memory.target;
+            creep.memory.role = "spare";
+        }
+    }
 };
 
 module.exports = roleBuilder;

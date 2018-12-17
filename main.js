@@ -6,6 +6,7 @@ var buildingController = require("controller.building");
 var roleTower = require("role.tower");
 var roleSpare = require("role.spare");
 var roleRefill = require("role.refill");
+var roleBuilder = require("role.builder");
 
 //Should this go in the main Loop???
 
@@ -53,12 +54,13 @@ module.exports.loop = function() {
     //setting room control level
     for (var roomName in Game.rooms) { //Loop through all rooms your creeps/structures are in
         var room = Game.rooms[roomName];
+        if (Game.time % 20 == 0) {
 
-        if (room.controller.level != room.memory.rcl) {
+            if (room.controller.level != room.memory.rcl) {
+                room.memory.build_extension = true;
 
-            room.memory.build_extension = true;
+            }
             buildingController.run(room);
-
         }
     }
 
@@ -178,6 +180,9 @@ module.exports.loop = function() {
         }
         if (creep.memory.role == "refill") {
             roleRefill.run(creep);
+        }
+        if (creep.memory.role == "builder") {
+            roleBuilder.run(creep);
         }
     }
 }
