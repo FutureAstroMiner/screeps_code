@@ -3,17 +3,17 @@ var roleUpgrader = {
     run: function(creep) {
         if (creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
-            creep.say("🔄 harvest");
         }
         if (!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
             creep.memory.upgrading = true;
-            creep.say("⚡ upgrade");
         }
 
         if (creep.memory.upgrading) {
             if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller, {
-                    visualizePathStyle: { stroke: "#ffffff" }
+                    visualizePathStyle: {
+                        stroke: "#ffffff"
+                    }
                 });
             }
         } else {
@@ -31,16 +31,20 @@ var roleUpgrader = {
             });
             if (container) {
                 if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(container, { visualizePathStyle: { stroke: "#ffaa00" } });
-                    creep.say("container");
+                    creep.moveTo(container, {
+                        visualizePathStyle: {
+                            stroke: "#ffaa00"
+                        }
+                    });
                 }
             } else {
                 var source = creep.pos.findClosestByPath(FIND_SOURCES);
                 if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source, {
-                        visualizePathStyle: { stroke: "#ffaa00" }
+                        visualizePathStyle: {
+                            stroke: "#ffaa00"
+                        }
                     });
-                    creep.say("source");
                 }
             }
         }

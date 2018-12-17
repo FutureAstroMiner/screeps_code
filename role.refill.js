@@ -31,7 +31,6 @@ var roleRefill = {
                 }
             } else {
                 var result = creep.transfer(target, RESOURCE_ENERGY);
-                //creep.say(result);
                 if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target, {
                         visualizePathStyle: {
@@ -45,22 +44,17 @@ var roleRefill = {
                 }
             }
         } else {
-            //creep.say("new");
             var source = Game.getObjectById(creep.memory.source);
             if (source != null) {
                 if (source.structureType == STRUCTURE_CONTAINER) {
-                    //creep.say("container");
                     if (source.store[RESOURCE_ENERGY] > creep.carryCapacity) {
-                        //creep.say("container");
                         if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                            //creep.say("range");
                             creep.moveTo(source, {
                                 visualizePathStyle: {
                                     stroke: "#ffaa00"
                                 },
                                 reusePath: 10
                             });
-                            //creep.say("container");
                         }
                     }
                 } else {
@@ -72,7 +66,6 @@ var roleRefill = {
                             },
                             reusePath: 10
                         });
-                        //creep.say("source");
                     } else if (result == ERR_NOT_ENOUGH_RESOURCES) {
                         delete creep.memory.source;
                     }

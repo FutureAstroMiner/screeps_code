@@ -19,10 +19,8 @@ var roleBuilder = {
         */
 
         if (creep.memory.doing) {
-            //creep.say("target.progress");
             var target = Game.getObjectById(creep.memory.target);
             if (target == null) {
-                creep.say(target.progress);
                 target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
                 if (target == null) {
                     delete creep.memory.target;
