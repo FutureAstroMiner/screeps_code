@@ -4,6 +4,8 @@ var roleWorker = require("role.worker");
 var roleRepairer = require("role.repairer");
 var buildingController = require("controller.building");
 var roleTower = require("role.tower");
+var roleSpare = require("role.spare");
+var roleRefill = require("role.refill");
 
 //Should this go in the main Loop???
 
@@ -66,6 +68,8 @@ module.exports.loop = function() {
     var miner = _.filter(Game.creeps, creep => creep.memory.role == "miner");
     var repairer = _.filter(Game.creeps, creep => creep.memory.role == "repairer");
 
+    var creeps = _.filter(Game.creeps);
+
     var containers = Game.spawns[my_spawner_name].room.find(FIND_STRUCTURES, {
         filter: structure => {
             return (structure.structureType == STRUCTURE_CONTAINER);
@@ -80,32 +84,41 @@ module.exports.loop = function() {
 
     // }
 
-    if (worker.length < 2) {
+    if (creeps.length < 2) {
         var newName = Game.spawns[my_spawner_name].createCreep(
             [WORK, CARRY, MOVE],
-            undefined, { role: "worker" }
+            undefined, {
+                role: "spare"
+            }
         );
-        console.log("Spawning new worker: " + newName);
+        console.log("Spawning new spare: " + newName);
     } else {
-        if (worker.length >= 2 && upgrader.length < 1) {
+        if (creeps.length >= 2 && upgrader.length < 1) {
             var newName = Game.spawns[my_spawner_name].createCreep(
                 [WORK, CARRY, MOVE],
-                undefined, { role: "upgrader" }
+                undefined, {
+                    role: "upgrader"
+                }
             );
             console.log("Spawning new upgrader: " + newName);
         } else {
-            if (worker.length < 6) {
+            if (creeps.length < 6) {
                 var newName = Game.spawns[my_spawner_name].createCreep(
                     [WORK, CARRY, MOVE],
-                    undefined, { role: "worker" }
+                    undefined, {
+                        role: "spare"
+                    }
                 );
-                console.log("Spawning new worker: " + newName);
+                console.log("Spawning new spare: " + newName);
             } else if (miner.length < containers.length) {
                 for (let c of containers) {
                     if (!_.some(miner, m => m.memory.role == 'miner' && m.memory.container.id == c.id)) {
                         var newName = Game.spawns[my_spawner_name].createCreep(
                             [WORK, WORK, WORK, WORK, WORK, MOVE],
-                            undefined, { role: "miner", container: c }
+                            undefined, {
+                                role: "miner",
+                                container: c
+                            }
                         );
                         console.log("Spawning new miner: " + newName);
                     }
@@ -114,7 +127,9 @@ module.exports.loop = function() {
             if (repairer.length < 1) {
                 var newName = Game.spawns[my_spawner_name].createCreep(
                     [WORK, CARRY, MOVE],
-                    undefined, { role: "repairer" }
+                    undefined, {
+                        role: "repairer"
+                    }
                 );
                 console.log("Spawning new repairer: " + newName);
             }
@@ -130,10 +145,14 @@ module.exports.loop = function() {
     //     );
     //     console.log("Spawning new miner: " + newName);
     //   }
-*/
+
 
     var towers = Game.rooms[roomName].find(
-        FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
+        FIND_MY_STRUCTURES, {
+            filter: {
+                structureType: STRUCTURE_TOWER
+            }
+        });
 
     for (var id in towers) {
         var tower = towers[id];
@@ -153,6 +172,12 @@ module.exports.loop = function() {
         }
         if (creep.memory.role == "repairer") {
             roleRepairer.run(creep);
+        }
+        if (creep.memory.role == "spare") {
+            roleSpare.run(creep);
+        }
+        if (creep.memory.role == "refill") {
+            roleRefill.run(creep);
         }
     }
 }
