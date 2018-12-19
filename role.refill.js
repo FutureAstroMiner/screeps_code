@@ -56,6 +56,8 @@ var roleRefill = {
                                 reusePath: 10
                             });
                         }
+                    } else {
+                        delete creep.memory.source;
                     }
                 } else {
                     result = creep.harvest(source);
