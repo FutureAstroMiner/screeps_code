@@ -64,9 +64,15 @@ module.exports.loop = function() {
     });
 
     var energy = Game.spawns[my_spawner_name].energyCapacity;
+    var energyAvailable = 0;
+    energyAvailable += Game.spawns.Spawn1.energy;
+    _.filter(Game.structures, function(structure) {
+        if (structure.structureType == STRUCTURE_EXTENSION) {
+            energyAvailable += structure.energy;
+        }
+    });
 
-
-    if (creeps.length < 2 && energy > 200) {
+    if (creeps.length < 2 && energyAvailable > 200) {
         var newName = Game.spawns[my_spawner_name].createCustomCreep(energy, 'spare');
         console.log("Spawning new spare: " + newName);
     } else if (creeps.length >= 2 && upgrader.length < 1) {
@@ -75,7 +81,7 @@ module.exports.loop = function() {
     } else if (repairer.length < 1) {
         var newName = Game.spawns[my_spawner_name].createCustomCreep(energy, 'repairer');
         console.log("Spawning new repairer: " + newName);
-    } else if (creeps.length >= 2 && miner.length < containers.length) {
+    } else if (creeps.length >= 2 && miner.length < containers.length && energyAvailable > 500) {
         for (let c of containers) {
             if (!_.some(miner, m => m.memory.role == 'miner' && m.memory.container.id == c.id)) {
                 var newName = Game.spawns[my_spawner_name].createCreep(
