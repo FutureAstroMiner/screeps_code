@@ -14,7 +14,7 @@ module.exports = function() {
 
         return this.createCreep(parts, undefined, {
             role: roleName,
-            working: false
+            doing: false
         });
     }
 }
