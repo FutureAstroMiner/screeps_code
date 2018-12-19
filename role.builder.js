@@ -19,14 +19,22 @@ var roleBuilder = {
         */
 
         if (creep.memory.doing) {
+            if (Game.time % 20 == 0) {
+                delete creep.memory.target;
+            }
             var target = Game.getObjectById(creep.memory.target);
             if (target == null) {
                 target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
                 if (target == null) {
                     delete creep.memory.target;
+                    creep.memory.role = "spare";
+                } else {
+                    creep.memory.target = target.id;
                 }
             } else {
-                if (creep.build(target) == ERR_NOT_IN_RANGE) {
+                var result = creep.build(target);
+                //creep.say(result);
+                if (result == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target, {
                         visualizePathStyle: {
                             stroke: '#ffffff'

@@ -56,13 +56,16 @@ var roleSpare = {
                         }
                     }
                 } else {
-                    if (creep.harvest(target) == ERR_NOT_IN_RANGE) {
+                    var result = creep.harvest(target);
+                    if (result == ERR_NOT_IN_RANGE) {
                         creep.moveTo(target, {
                             visualizePathStyle: {
                                 stroke: "#ffaa00"
                             },
                             reusePath: 10
                         });
+                    } else if (result == ERR_INVALID_TARGET || result == ERR_NOT_ENOUGH_RESOURCES) {
+                        delete creep.memory.target;
                     }
                 }
             } else {
